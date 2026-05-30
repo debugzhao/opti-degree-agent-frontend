@@ -17,6 +17,38 @@ export const allProvinces = [
 
 export const subjectOptions = ["物理", "化学", "生物", "历史", "政治", "地理"];
 
+export const genderOptions = ["男", "女"];
+
+export const genderMajorAffinity = {
+  男: {
+    计算机类: 8,
+    电子信息类: 8,
+    自动化类: 10,
+    新能源类: 8,
+    生物制造类: 4,
+    财经类: 0,
+    医学类: 0,
+    法学类: 0,
+    师范类: -4
+  },
+  女: {
+    师范类: 10,
+    医学类: 8,
+    财经类: 8,
+    法学类: 6,
+    计算机类: 2,
+    生物制造类: 4,
+    电子信息类: 0,
+    新能源类: -2,
+    自动化类: -6
+  }
+};
+
+export const genderMajorHints = {
+  男: "男生在工科、智能制造、新能源等高强度现场与硬件方向适配度更高，可适当上探。",
+  女: "女生在师范、医学、财经、法学等稳定与表达密集方向适配度更高，工科现场岗需结合个人意愿。"
+};
+
 export const familyTypes = ["普通工薪", "预算敏感", "有行业资源", "可长期投入"];
 
 export const priorities = ["就业优先", "稳定优先", "兴趣优先", "城市优先", "读研优先"];

@@ -23,6 +23,8 @@ import {
   allProvinces,
   cityOptions,
   familyTypes,
+  genderMajorHints,
+  genderOptions,
   majorOptions,
   packages,
   priorities,
@@ -160,7 +162,7 @@ function MeasurePage({ exam, profile, riskProfile, setExam, setRiskProfile, setS
     <div className="page-grid">
       <div className="main-flow">
         <div className="page-title">
-          <span className="eyebrow">志愿参谋 Agent</span>
+          <span className="eyebrow">志愿规划 Agent</span>
           <h1>开始测算</h1>
           <p>首页直接进入分数和位次测算，先给免费风险画像，再引导补全家庭与偏好。</p>
         </div>
@@ -172,6 +174,14 @@ function MeasurePage({ exam, profile, riskProfile, setExam, setRiskProfile, setS
               <select value={exam.province} onChange={(event) => update("province", event.target.value)}>
                 {allProvinces.map((province) => (
                   <option key={province}>{province}</option>
+                ))}
+              </select>
+            </label>
+            <label>
+              <span>性别</span>
+              <select value={exam.gender} onChange={(event) => update("gender", event.target.value)}>
+                {genderOptions.map((gender) => (
+                  <option key={gender}>{gender}</option>
                 ))}
               </select>
             </label>
@@ -203,6 +213,10 @@ function MeasurePage({ exam, profile, riskProfile, setExam, setRiskProfile, setS
               ))}
             </div>
           </div>
+
+          {genderMajorHints[exam.gender] ? (
+            <p className="fineprint">性别参考：{genderMajorHints[exam.gender]}（仅作为专业规划的软性参考，不构成硬性限制）</p>
+          ) : null}
 
           <div className="button-row">
             <button
@@ -445,6 +459,7 @@ function ReportPage({ report, profile, paidPackage, setPaidPackage, setVolunteer
                   <span>综合 {item.overall}</span>
                   <span>趋势 {item.trendScore}</span>
                   <span>学费 {item.tuition}/年</span>
+                  {item.genderFit ? <span>性别适配 {item.genderFit}</span> : null}
                 </div>
                 <p className="body-copy">推荐理由：{item.employment}</p>
                 {paidPackage ? (
@@ -830,7 +845,7 @@ function App() {
             <Sparkles size={22} />
           </div>
           <div>
-            <strong>志愿参谋 Agent</strong>
+            <strong>志愿规划 Agent</strong>
             <span>AI 志愿决策助理 + 专家复核咨询</span>
           </div>
         </div>

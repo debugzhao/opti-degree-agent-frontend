@@ -1,7 +1,8 @@
-import { supportedProvinces, universities } from "./data";
+import { genderMajorAffinity, supportedProvinces, universities } from "./data";
 
 export const initialExam = {
   province: "河南",
+  gender: "男",
   score: "",
   rank: "",
   subjects: ["物理", "化学"],
@@ -75,6 +76,12 @@ const preferenceScore = (candidate, profile) => {
   return clamp(score, 0, 100);
 };
 
+const genderAffinity = (candidate, exam) => {
+  const table = genderMajorAffinity[exam?.gender];
+  if (!table) return 0;
+  return table[candidate.majorCategory] ?? 0;
+};
+
 const costScore = (candidate, profile) => {
   const budget = getBudget(profile);
   if (candidate.tuition <= budget) return 100;
@@ -92,7 +99,9 @@ const enrichCandidate = (candidate, exam, profile) => {
   const subject = subjectScore(candidate, exam);
   const probability = subject < 1 ? 22 : admissionProbability(candidate, exam);
   const position = getPosition(probability);
-  const pref = preferenceScore(candidate, profile);
+  const basePref = preferenceScore(candidate, profile);
+  const genderAdj = genderAffinity(candidate, exam);
+  const pref = clamp(basePref + genderAdj, 0, 100);
   const city = (profile.cityPrefs || []).includes(candidate.city) ? 100 : 68;
   const cost = costScore(candidate, profile);
   const overall = Math.round(probability * 0.35 + pref * 0.2 + candidate.trendScore * 0.2 + city * 0.15 + cost * 0.1);
@@ -108,6 +117,7 @@ const enrichCandidate = (candidate, exam, profile) => {
     position,
     tone: getPositionTone(position),
     preferenceScore: pref,
+    genderFit: genderAdj > 0 ? "适配较高" : genderAdj < 0 ? "需结合个人意愿" : "中性",
     overall,
     hardWarnings
   };
