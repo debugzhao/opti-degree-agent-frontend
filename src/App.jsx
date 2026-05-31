@@ -236,7 +236,7 @@ function MeasurePage({ exam, profile, riskProfile, setExam, setRiskProfile, setS
             </button>
             <button className="btn primary" type="button" onClick={() => setRiskProfile(buildRiskProfile(exam, profile))}>
               <ScanLine size={18} />
-              生成风险画像
+              志愿规划
             </button>
           </div>
         </Section>
